@@ -4,12 +4,9 @@
   "private": true,
   "scripts": {
     "build": "next build",
-    "dev": "next dev --turbo",
-    "dev:fast": "next dev --turbo --experimental-https",
+    "dev": "next dev",
     "lint": "next lint",
-    "start": "next start",
-    "analyze": "ANALYZE=true next build",
-    "preview": "next build && next start"
+    "start": "next start"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.1",

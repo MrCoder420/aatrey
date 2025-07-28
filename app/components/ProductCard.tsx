@@ -4,7 +4,6 @@ import { Button } from "@/components/ui/button"
 import { ShoppingCart, Star } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
-import { memo, useCallback } from "react"
 import { useCart } from "../context/CartContext"
 import type { Product } from "../types"
 
@@ -12,17 +11,16 @@ interface ProductCardProps {
   product: Product
 }
 
-function ProductCard({ product }: ProductCardProps) {
+export default function ProductCard({ product }: ProductCardProps) {
   const { addItem } = useCart()
 
-  const handleAddToCart = useCallback((e: React.MouseEvent) => {
+  const handleAddToCart = (e: React.MouseEvent) => {
     e.preventDefault() // Prevent navigating when button is clicked
-    e.stopPropagation() // Prevent event bubbling
     addItem(product)
-  }, [addItem, product])
+  }
 
   return (
-    <Link href={`/product/${product.id}`} className="block" prefetch={false}>
+    <Link href={`/product/${product.id}`} className="block">
       <div className="product-card w-full hover:shadow-lg transition border rounded-md overflow-hidden">
         <div className="relative overflow-hidden">
           <Image
@@ -30,10 +28,7 @@ function ProductCard({ product }: ProductCardProps) {
             alt={product.name}
             width={300}
             height={200}
-            className="w-full h-48 sm:h-56 md:h-64 lg:h-72 object-cover"
-            loading="lazy"
-            placeholder="blur"
-            blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwCdABmX/9k="
+            className="w-full h-40 sm:h-48 md:h-52 object-cover"
           />
           {product.discount && (
             <div className="absolute top-2 left-2 bg-red-500 text-white px-2 py-1 text-xs rounded">
@@ -95,6 +90,3 @@ function ProductCard({ product }: ProductCardProps) {
     </Link>
   )
 }
-
-// Memoize the component to prevent unnecessary re-renders
-export default memo(ProductCard)

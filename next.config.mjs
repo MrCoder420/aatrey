@@ -7,26 +7,10 @@ const nextConfig = {
     ignoreBuildErrors: true,
   },
   images: {
-    unoptimized: false, // Enable image optimization
-    domains: ['localhost'],
-    remotePatterns: [
-      {
-        protocol: 'http',
-        hostname: 'localhost',
-        port: '3000',
-        pathname: '/public/**',
-      },
-    ],
+    unoptimized: true,
+     domains: ['localhost'],
   },
-  // Performance optimizations
-  experimental: {
-    optimizeCss: true,
-    optimizePackageImports: ['lucide-react', '@radix-ui/react-icons'],
-  },
-  // Enable compression
-  compress: true,
-  // Optimize builds
-  swcMinify: true,
 }
+
 
 export default nextConfig

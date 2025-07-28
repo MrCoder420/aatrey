@@ -34,61 +34,35 @@ export default function AuthPage() {
   })
 
   const handleLogin = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setError("")
-    setSuccess("")
+  e.preventDefault();
+  setError("");
+  setSuccess("");
 
-    if (!loginData.email || !loginData.password) {
-      setError("Please fill in all fields")
-      return
+  try {
+    const res = await fetch("http://localhost:3000/api/auth/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(loginData),
+    });
+
+    const data = await res.json();
+
+    if (!res.ok) {
+      setError(data.message || "Login failed");
+      return;
     }
 
-    try {
-      const controller = new AbortController()
-      const timeoutId = setTimeout(() => controller.abort(), 10000) // 10s timeout
+    localStorage.setItem("currentUser", JSON.stringify(data.user));
+    setSuccess("Login successful!");
 
-      const res = await fetch("http://localhost:3000/api/auth/login", {
-        method: "POST",
-        headers: { 
-          "Content-Type": "application/json",
-          "Cache-Control": "no-cache"
-        },
-        body: JSON.stringify(loginData),
-        signal: controller.signal,
-      })
-
-      clearTimeout(timeoutId)
-      const data = await res.json()
-
-      if (!res.ok) {
-        setError(data.message || "Login failed")
-        return
-      }
-
-      // Store user data efficiently
-      try {
-        localStorage.setItem("currentUser", JSON.stringify(data.user))
-      } catch (storageError) {
-        console.error("Storage error:", storageError)
-        setError("Login successful but couldn't save session")
-        return
-      }
-
-      setSuccess("Login successful!")
-
-      // Use router.push for better performance than setTimeout
-      const redirectTo = data.user.role === "admin" ? "/admin" : "/"
-      router.push(redirectTo)
-      
-    } catch (err: any) {
-      console.error("Login error:", err)
-      if (err.name === 'AbortError') {
-        setError("Request timeout. Please try again.")
-      } else {
-        setError("Network error. Please check your connection.")
-      }
-    }
+    setTimeout(() => {
+      router.push(data.user.role === "admin" ? "/admin" : "/");
+    }, 1000);
+  } catch (err) {
+    console.error(err);
+    setError("Something went wrong.");
   }
+};
 
 
 

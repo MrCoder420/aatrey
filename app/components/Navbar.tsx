@@ -11,7 +11,7 @@ import {
 import { Input } from "@/components/ui/input"
 import { LogOut, Menu, Package, Search, ShoppingCart, User, X } from "lucide-react"
 import Link from "next/link"
-import { useEffect, useState, useCallback, useMemo } from "react"
+import { useEffect, useState } from "react"
 import { useCart } from "../context/CartContext"
 
 export default function Navbar() {
@@ -19,95 +19,21 @@ export default function Navbar() {
   const [searchQuery, setSearchQuery] = useState("")
   const { items } = useCart()
   const [user, setUser] = useState<any>(null)
-  const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
-    try {
-      const currentUser = localStorage.getItem("currentUser")
-      if (currentUser) {
-        setUser(JSON.parse(currentUser))
-      }
-    } catch (error) {
-      console.error("Error parsing user data:", error)
-      localStorage.removeItem("currentUser")
-    } finally {
-      setIsLoading(false)
+    const currentUser = localStorage.getItem("currentUser")
+    if (currentUser) {
+      setUser(JSON.parse(currentUser))
     }
   }, [])
 
-  const cartItemsCount = useMemo(() => 
-    items.reduce((sum, item) => sum + item.quantity, 0), 
-    [items]
-  )
+  const cartItemsCount = items.reduce((sum, item) => sum + item.quantity, 0)
 
-  const handleLogout = useCallback(() => {
+  const handleLogout = () => {
     localStorage.removeItem("currentUser")
     setUser(null)
-    // Use router instead of window.location.reload for better performance
-    window.location.href = "/"
-  }, [])
-
-  const handleMenuToggle = useCallback(() => {
-    setIsMenuOpen(prev => !prev)
-  }, [])
-
-  const handleMenuClose = useCallback(() => {
-    setIsMenuOpen(false)
-  }, [])
-
-  // Prevent rendering login button until user state is determined
-  const LoginButton = useMemo(() => {
-    if (isLoading) {
-      return (
-        <div className="w-8 h-8 bg-gray-200 rounded-full animate-pulse"></div>
-      )
-    }
-
-    if (user) {
-      return (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="flex items-center space-x-2 p-2">
-              <div className="w-8 h-8 bg-gradient-to-br from-[#4a9960] to-[#3d8050] rounded-full flex items-center justify-center">
-                <User className="w-4 h-4 text-white" />
-              </div>
-              <span className="font-medium text-[#2d6040] hidden lg:block">{user.name}</span>
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end" className="w-48">
-            <DropdownMenuItem asChild>
-              <Link href="/profile" className="flex items-center">
-                <User className="mr-2 h-4 w-4" />
-                My Profile
-              </Link>
-            </DropdownMenuItem>
-            <DropdownMenuItem asChild>
-              <Link href="/orders" className="flex items-center">
-                <Package className="mr-2 h-4 w-4" />
-                My Orders
-              </Link>
-            </DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem onClick={handleLogout}>
-              <LogOut className="mr-2 h-4 w-4" />
-              Logout
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      )
-    }
-
-    return (
-      <Link
-        href="/auth"
-        className="flex items-center space-x-2 text-[#2d6040] hover:text-[#4a9960] transition-colors p-2"
-        prefetch={true}
-      >
-        <User className="w-5 h-5" />
-        <span className="font-medium hidden lg:block">Login</span>
-      </Link>
-    )
-  }, [user, isLoading, handleLogout])
+    window.location.reload()
+  }
 
   return (
     <nav className="bg-white shadow-lg sticky top-0 z-50 border-b border-[#b8d4b8]/20">
@@ -155,9 +81,47 @@ export default function Navbar() {
               Contact
             </Link>
 
-            {LoginButton}
+            {user ? (
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="ghost" className="flex items-center space-x-2 p-2">
+                    <div className="w-8 h-8 bg-gradient-to-br from-[#4a9960] to-[#3d8050] rounded-full flex items-center justify-center">
+                      <User className="w-4 h-4 text-white" />
+                    </div>
+                    <span className="font-medium text-[#2d6040] hidden lg:block">{user.name}</span>
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" className="w-48">
+                  <DropdownMenuItem asChild>
+                    <Link href="/profile" className="flex items-center">
+                      <User className="mr-2 h-4 w-4" />
+                      My Profile
+                    </Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem asChild>
+                    <Link href="/orders" className="flex items-center">
+                      <Package className="mr-2 h-4 w-4" />
+                       My Orders
+                    </Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem onClick={handleLogout}>
+                    <LogOut className="mr-2 h-4 w-4" />
+                    Logout
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            ) : (
+              <Link
+                href="/auth"
+                className="flex items-center space-x-2 text-[#2d6040] hover:text-[#4a9960] transition-colors p-2"
+              >
+                <User className="w-5 h-5" />
+                <span className="font-medium hidden lg:block">Login</span>
+              </Link>
+            )}
 
-            <Link href="/cart" className="relative" prefetch={true}>
+            <Link href="/cart" className="relative">
               <Button className="btn-primary flex items-center space-x-2 px-3 lg:px-4">
                 <ShoppingCart className="w-5 h-5" />
                 <span className="hidden lg:block">Cart</span>
@@ -172,7 +136,7 @@ export default function Navbar() {
 
           {/* Mobile Menu Button */}
           <div className="md:hidden flex items-center space-x-2">
-            <Link href="/cart" className="relative p-2" prefetch={true}>
+            <Link href="/cart" className="relative p-2">
               <ShoppingCart className="w-6 h-6 text-[#2d6040]" />
               {cartItemsCount > 0 && (
                 <span className="absolute -top-1 -right-1 bg-[#e74c3c] text-white text-xs rounded-full w-5 h-5 flex items-center justify-center font-bold">
@@ -180,7 +144,7 @@ export default function Navbar() {
                 </span>
               )}
             </Link>
-            <Button variant="ghost" size="sm" onClick={handleMenuToggle} className="p-2">
+            <Button variant="ghost" size="sm" onClick={() => setIsMenuOpen(!isMenuOpen)} className="p-2">
               {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
             </Button>
           </div>
@@ -205,44 +169,42 @@ export default function Navbar() {
 
             {/* Mobile Navigation Links */}
             <div className="space-y-1 px-4">
-              <Link href="/products" className="nav-link w-full justify-start" onClick={handleMenuClose} prefetch={true}>
+              <Link href="/products" className="nav-link w-full justify-start" onClick={() => setIsMenuOpen(false)}>
                 Products
               </Link>
-              <Link href="/about" className="nav-link w-full justify-start" onClick={handleMenuClose} prefetch={true}>
+              <Link href="/about" className="nav-link w-full justify-start" onClick={() => setIsMenuOpen(false)}>
                 About
               </Link>
-              <Link href="/contact" className="nav-link w-full justify-start" onClick={handleMenuClose} prefetch={true}>
+              <Link href="/contact" className="nav-link w-full justify-start" onClick={() => setIsMenuOpen(false)}>
                 Contact
               </Link>
 
-              {!isLoading && (
-                user ? (
-                  <>
-                    <Link href="/profile" className="nav-link w-full justify-start" onClick={handleMenuClose} prefetch={true}>
-                      <User className="w-4 h-4 mr-2" />
-                      My Profile
-                    </Link>
-                    <Link href="/orders" className="nav-link w-full justify-start" onClick={handleMenuClose} prefetch={true}>
-                      <Package className="w-4 h-4 mr-2" />
-                      My Orders
-                    </Link>
-                    <button
-                      onClick={() => {
-                        handleLogout()
-                        handleMenuClose()
-                      }}
-                      className="nav-link w-full justify-start text-left"
-                    >
-                      <LogOut className="w-4 h-4 mr-2" />
-                      Logout
-                    </button>
-                  </>
-                ) : (
-                  <Link href="/auth" className="nav-link w-full justify-start" onClick={handleMenuClose} prefetch={true}>
+              {user ? (
+                <>
+                  <Link href="/profile" className="nav-link w-full justify-start" onClick={() => setIsMenuOpen(false)}>
                     <User className="w-4 h-4 mr-2" />
-                    Login
+                    My Profile
                   </Link>
-                )
+                  <Link href="/orders" className="nav-link w-full justify-start" onClick={() => setIsMenuOpen(false)}>
+                    <Package className="w-4 h-4 mr-2" />
+                    My Orders
+                  </Link>
+                  <button
+                    onClick={() => {
+                      handleLogout()
+                      setIsMenuOpen(false)
+                    }}
+                    className="nav-link w-full justify-start text-left"
+                  >
+                    <LogOut className="w-4 h-4 mr-2" />
+                    Logout
+                  </button>
+                </>
+              ) : (
+                <Link href="/auth" className="nav-link w-full justify-start" onClick={() => setIsMenuOpen(false)}>
+                  <User className="w-4 h-4 mr-2" />
+                  Login
+                </Link>
               )}
             </div>
           </div>

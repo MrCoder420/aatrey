@@ -1,6 +1,6 @@
 "use client"
 
-import { createContext, useContext, useReducer, useEffect, useCallback, useMemo, type ReactNode } from "react"
+import { createContext, useContext, useReducer, type ReactNode } from "react"
 import type { Product } from "../types"
 
 interface CartItem extends Product {
@@ -9,7 +9,6 @@ interface CartItem extends Product {
 
 interface CartState {
   items: CartItem[]
-  isLoaded: boolean
 }
 
 interface CartContextType extends CartState {
@@ -27,24 +26,9 @@ type CartAction =
   | { type: "REMOVE_ITEM"; payload: string }
   | { type: "UPDATE_QUANTITY"; payload: { id: string; quantity: number } }
   | { type: "CLEAR_CART" }
-  | { type: "LOAD_CART"; payload: CartItem[] }
-  | { type: "SET_LOADED" }
 
 function cartReducer(state: CartState, action: CartAction): CartState {
   switch (action.type) {
-    case "LOAD_CART":
-      return {
-        ...state,
-        items: action.payload,
-        isLoaded: true,
-      }
-
-    case "SET_LOADED":
-      return {
-        ...state,
-        isLoaded: true,
-      }
-
     case "ADD_ITEM":
       const existingItem = state.items.find((item) => item.id === action.payload.id)
       if (existingItem) {
