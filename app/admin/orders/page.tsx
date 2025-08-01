@@ -40,7 +40,7 @@ export default function OrdersPage() {
   const fetchOrders = async () => {
     try {
       setLoading(true)
-      let url = "http://localhost:3000/api/orders"
+      let url = "https://aatrey-backend.onrender.com/api/orders"
       const params = new URLSearchParams()
       
       if (statusFilter) {
@@ -65,7 +65,7 @@ export default function OrdersPage() {
 
   const updateOrderStatus = async (orderId: number, newStatus: string) => {
     try {
-      const response = await fetch(`http://localhost:3000/api/orders/${orderId}/status`, {
+      const response = await fetch(`https://aatrey-backend.onrender.com/api/orders/${orderId}/status`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",

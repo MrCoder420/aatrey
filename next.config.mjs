@@ -8,7 +8,7 @@ const nextConfig = {
   },
   images: {
     unoptimized: true,
-     domains: ['localhost'],
+     domains: ['localhost', 'aatrey-backend.onrender.com'],
   },
 }
 

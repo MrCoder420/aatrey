@@ -21,7 +21,7 @@ export default function HeroBanner() {
 
   useEffect(() => {
     // ✅ Fetch only hero banners from your new endpoint
-    fetch("http://localhost:3000/api/banners/hero")
+    fetch("https://aatrey-backend.onrender.com/api/banners/hero")
       .then((res) => res.json())
       .then((data) => setBanners(data))
       .catch((err) => console.error("Failed to load hero banners:", err))

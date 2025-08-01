@@ -46,7 +46,7 @@ export default function TrackOrderPage() {
   const fetchOrder = async (id: string) => {
     try {
       setLoading(true)
-      const response = await fetch(`http://localhost:3000/api/orders/${id}`)
+      const response = await fetch(`https://aatrey-backend.onrender.com/api/orders/${id}`)
       if (response.ok) {
         const data = await response.json()
         setOrder(data)

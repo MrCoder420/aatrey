@@ -41,8 +41,12 @@ export default function Navbar() {
         <div className="flex items-center justify-between h-16 md:h-20">
           {/* Logo */}
           <Link href="/" className="flex items-center space-x-2 md:space-x-3 flex-shrink-0">
-            <div className="w-10 h-10 md:w-12 md:h-12 bg-gradient-to-br from-[#4a9960] to-[#3d8050] rounded-full flex items-center justify-center shadow-lg">
-              <span className="text-white font-bold text-lg md:text-xl">A</span>
+            <div className="w-10 h-10 md:w-12 md:h-12 rounded-full flex items-center justify-center shadow-lg overflow-hidden">
+              <img 
+                src="/aatrey-logo.png" 
+                alt="Aatrey Logo" 
+                className="w-full h-full object-cover"
+              />
             </div>
             <div className="flex flex-col">
               <span className="text-xl md:text-2xl font-bold bg-gradient-to-r from-[#2d6040] to-[#4a9960] bg-clip-text text-transparent">
@@ -85,8 +89,12 @@ export default function Navbar() {
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <Button variant="ghost" className="flex items-center space-x-2 p-2">
-                    <div className="w-8 h-8 bg-gradient-to-br from-[#4a9960] to-[#3d8050] rounded-full flex items-center justify-center">
-                      <User className="w-4 h-4 text-white" />
+                    <div className="w-8 h-8 rounded-full flex items-center justify-center overflow-hidden">
+                      <img 
+                        src="/aatrey-logo.png" 
+                        alt="Aatrey Logo" 
+                        className="w-full h-full object-cover"
+                      />
                     </div>
                     <span className="font-medium text-[#2d6040] hidden lg:block">{user.name}</span>
                   </Button>

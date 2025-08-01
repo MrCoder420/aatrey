@@ -32,7 +32,7 @@ export default function CategoriesPage() {
 
 // fetch categories on mount
 useEffect(() => {
-  fetch("http://localhost:3000/api/categories")
+  fetch("https://aatrey-backend.onrender.com/api/categories")
     .then((res) => res.json())
     .then((data) => setCategories(data))
     .catch((err) => console.error("Failed to fetch categories", err))
@@ -46,7 +46,7 @@ useEffect(() => {
 
   const handleAddCategory = async () => {
   try {
-    const response = await fetch("http://localhost:3000/api/categories", {
+    const response = await fetch("https://aatrey-backend.onrender.com/api/categories", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(newCategory),
@@ -65,7 +65,7 @@ useEffect(() => {
 
   const handleDeleteCategory = async (id: string) => {
   try {
-    await fetch(`http://localhost:3000/api/categories/${id}`, {
+    await fetch(`https://aatrey-backend.onrender.com/api/categories/${id}`, {
       method: "DELETE",
     })
     setCategories(categories.filter((c) => c.id !== id))
@@ -80,7 +80,7 @@ const handleUpdateCategory = async () => {
   if (!editCategory) return
 
   try {
-    const res = await fetch(`http://localhost:3000/api/categories/${editCategory.id}`, {
+    const res = await fetch(`https://aatrey-backend.onrender.com/api/categories/${editCategory.id}`, {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -103,7 +103,7 @@ const handleUpdateCategory = async () => {
 
  const toggleCategoryStatus = async (id: string) => {
   try {
-    const res = await fetch(`http://localhost:3000/api/categories/${id}/toggle`, {
+    const res = await fetch(`https://aatrey-backend.onrender.com/api/categories/${id}/toggle`, {
       method: "PATCH",
     })
     const updated = await res.json()

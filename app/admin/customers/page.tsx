@@ -46,7 +46,7 @@ export default function CustomersPage() {
 
 
   const fetchCustomers = () => {
-    fetch("http://localhost:3000/api/customers")
+    fetch("https://aatrey-backend.onrender.com/api/customers")
       .then(res => res.json())
       .then(data => setCustomers(data))
       .catch(err => console.error("Failed to fetch customers", err))
@@ -60,7 +60,7 @@ export default function CustomersPage() {
     if (!editingCustomer) return;
 
     try {
-      const res = await fetch(`http://localhost:3000/api/customers/${editingCustomer.id}`, {
+      const res = await fetch(`https://aatrey-backend.onrender.com/api/customers/${editingCustomer.id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -87,7 +87,7 @@ export default function CustomersPage() {
   const handleStatusToggle = async (id: string, currentStatus: string) => {
     const newStatus = currentStatus === "active" ? "blocked" : "active";
     try {
-      const res = await fetch(`http://localhost:3000/api/customers/status/${id}`, {
+      const res = await fetch(`https://aatrey-backend.onrender.com/api/customers/status/${id}`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ status: newStatus }),
@@ -104,7 +104,7 @@ export default function CustomersPage() {
   const handleDelete = async (id: string) => {
     if (!confirm("Are you sure you want to delete this customer?")) return;
     try {
-      await fetch(`http://localhost:3000/api/customers/${id}`, {
+      await fetch(`https://aatrey-backend.onrender.com/api/customers/${id}`, {
         method: "DELETE",
       });
       setCustomers((prev) => prev.filter((c) => c.id !== id));

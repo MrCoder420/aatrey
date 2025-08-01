@@ -17,7 +17,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Switch } from "@/components/ui/switch"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { Textarea } from "@/components/ui/textarea"
-import { Edit, Eye, EyeOff, Plus, Trash2, Upload } from "lucide-react"
+import { Edit, Eye, EyeOff, Plus, Trash2 } from "lucide-react"
 import Image from "next/image"
 import { useEffect, useState } from "react"
 
@@ -40,7 +40,7 @@ export default function BannersPage() {
   const [banners, setBanners] = useState<Banner[]>([])
 
   useEffect(() => {
-    fetch("http://localhost:3000/api/banners")
+    fetch("https://aatrey-backend.onrender.com/api/banners")
       .then((res) => res.json())
       .then((data) => setBanners(data))
       .catch((err) => console.error("Failed to load banners:", err))
@@ -66,7 +66,7 @@ export default function BannersPage() {
 
   const handleAddBanner = async () => {
     try {
-      const res = await fetch("http://localhost:3000/api/banners", {
+      const res = await fetch("https://aatrey-backend.onrender.com/api/banners", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(newBanner),
@@ -96,7 +96,7 @@ export default function BannersPage() {
   const handleEditBanner = async () => {
     if (!editingBanner) return
     try {
-      const res = await fetch(`http://localhost:3000/api/banners/${editingBanner.id}`, {
+      const res = await fetch(`https://aatrey-backend.onrender.com/api/banners/${editingBanner.id}`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(editingBanner),
@@ -118,7 +118,7 @@ export default function BannersPage() {
     formData.append("file", file)
 
     try {
-      const res = await fetch("http://localhost:3000/api/upload", {
+      const res = await fetch("https://aatrey-backend.onrender.com/api/upload", {
         method: "POST",
         body: formData,
       })
@@ -132,7 +132,7 @@ export default function BannersPage() {
 
   const handleDeleteBanner = async (id: string) => {
     try {
-      await fetch(`http://localhost:3000/api/banners/${id}`, { method: "DELETE" })
+      await fetch(`https://aatrey-backend.onrender.com/api/banners/${id}`, { method: "DELETE" })
       setBanners(banners.filter((b) => b.id !== id))
     } catch (error) {
       console.error("Failed to delete banner", error)
@@ -144,7 +144,7 @@ export default function BannersPage() {
     if (!banner) return
 
     try {
-      const res = await fetch(`http://localhost:3000/api/banners/${id}`, {
+      const res = await fetch(`https://aatrey-backend.onrender.com/api/banners/${id}`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ ...banner, isActive: !banner.isActive }),

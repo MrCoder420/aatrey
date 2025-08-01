@@ -39,13 +39,13 @@ export default function ProductPage() {
     if (!id) return
 
     const fetchProduct = async () => {
-      const res = await fetch(`http://localhost:3000/api/products/${id}`)
+      const res = await fetch(`https://aatrey-backend.onrender.com/api/products/${id}`)
       if (res.ok) {
         const data = await res.json()
         setProduct(data)
 
         // Fetch related
-        const relatedRes = await fetch(`http://localhost:3000/api/products?category=${data.category_name}`)
+        const relatedRes = await fetch(`https://aatrey-backend.onrender.com/api/products?category=${data.category_name}`)
         const relatedData = await relatedRes.json()
         setRelatedProducts(relatedData.filter((p: Product) => p.id !== data.id).slice(0, 8))
       }

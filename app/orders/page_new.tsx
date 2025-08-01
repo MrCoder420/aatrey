@@ -50,7 +50,7 @@ export default function OrdersPage() {
 
   const fetchOrders = async () => {
     try {
-      const response = await fetch(`http://localhost:3000/api/orders/user/${user.id}`)
+      const response = await fetch(`https://aatrey-backend.onrender.com/api/orders/user/${user.id}`)
       if (response.ok) {
         const data = await response.json()
         setOrders(data)

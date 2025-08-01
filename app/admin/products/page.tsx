@@ -44,12 +44,12 @@ export default function ProductsPage() {
   const [categories, setCategories] = useState<Category[]>([])
 
   useEffect(() => {
-    fetch("http://localhost:3000/api/products")
+    fetch("https://aatrey-backend.onrender.com/api/products")
       .then((res) => res.json())
       .then((data) => setProducts(data))
       .catch((err) => console.error("Failed to fetch products", err))
 
-    fetch("http://localhost:3000/api/categories")
+    fetch("https://aatrey-backend.onrender.com/api/categories")
       .then((res) => res.json())
       .then((data) => setCategories(data))
       .catch((err) => console.error("Failed to fetch categories", err))
@@ -79,7 +79,7 @@ export default function ProductsPage() {
     }
 
     try {
-      const res = await fetch("http://localhost:3000/api/products", {
+      const res = await fetch("https://aatrey-backend.onrender.com/api/products", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(product),
@@ -96,7 +96,7 @@ export default function ProductsPage() {
 
   const handleUpdateProduct = async () => {
     try {
-      const res = await fetch(`http://localhost:3000/api/products/${editProduct.id}`, {
+      const res = await fetch(`https://aatrey-backend.onrender.com/api/products/${editProduct.id}`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
@@ -128,7 +128,7 @@ export default function ProductsPage() {
 
   const handleDeleteProduct = async (id: string) => {
     try {
-      await fetch(`http://localhost:3000/api/products/${id}`, {
+      await fetch(`https://aatrey-backend.onrender.com/api/products/${id}`, {
         method: "DELETE",
       })
       setProducts(products.filter((p) => p.id !== id))
@@ -232,7 +232,7 @@ export default function ProductsPage() {
                     formData.append("file", file)
 
                     try {
-                      const res = await fetch("http://localhost:3000/api/upload-product-image", {
+                      const res = await fetch("https://aatrey-backend.onrender.com/api/upload-product-image", {
                         method: "POST",
                         body: formData,
                       })
@@ -446,7 +446,7 @@ export default function ProductsPage() {
                         formData.append("file", file)
 
                         try {
-                          const res = await fetch("http://localhost:3000/api/upload-product-image", {
+                          const res = await fetch("https://aatrey-backend.onrender.com/api/upload-product-image", {
                             method: "POST",
                             body: formData,
                           })

@@ -39,7 +39,7 @@ export default function AuthPage() {
   setSuccess("");
 
   try {
-    const res = await fetch("http://localhost:3000/api/auth/login", {
+    const res = await fetch("https://aatrey-backend.onrender.com/api/auth/login", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(loginData),
@@ -82,7 +82,7 @@ export default function AuthPage() {
   }
 
   try {
-    const res = await fetch("http://localhost:3000/api/auth/signup", {
+    const res = await fetch("https://aatrey-backend.onrender.com/api/auth/signup", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({

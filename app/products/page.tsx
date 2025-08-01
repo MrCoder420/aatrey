@@ -39,7 +39,7 @@ export default function ProductsPage() {
 
   // Fetch categories once
   useEffect(() => {
-    fetch("http://localhost:3000/api/categories")
+    fetch("https://aatrey-backend.onrender.com/api/categories")
       .then((res) => res.json())
       .then((data) => {
         const names = data.map((cat: any) => cat.name)
@@ -67,7 +67,7 @@ export default function ProductsPage() {
         queryParams.append("sort", sortBy)
       }
 
-      const res = await fetch(`http://localhost:3000/api/products?${queryParams.toString()}`)
+      const res = await fetch(`https://aatrey-backend.onrender.com/api/products?${queryParams.toString()}`)
       const data = await res.json()
       setProducts(data)
     }

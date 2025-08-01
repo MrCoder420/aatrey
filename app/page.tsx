@@ -30,7 +30,7 @@ export default function HomePage() {
   const [categories, setCategories] = useState<CategoryWithProducts[]>([])
 
   useEffect(() => {
-    fetch("http://localhost:3000/api/products-by-category")
+    fetch("https://aatrey-backend.onrender.com/api/products-by-category")
       .then((res) => res.json())
       .then((data) => setCategories(data))
       .catch((err) => console.error("Error loading categories:", err))
